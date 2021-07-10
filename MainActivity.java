@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // menyembunyikan judul aplikasi dari layar
         getSupportActionBar().hide();
 
         masukan = (EditText) findViewById(R.id.inputtext);
@@ -47,8 +48,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         dropdown.setOnItemSelectedListener(this);
 
+        // Buat ArrayAdapter menggunakan array string dan layout spinner default
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, items);
+
+        // menetapkan tata letak yang harus digunakan adaptor untuk menampilkan daftar pilihan spinner
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // menetapkan adapter kepada spinner
         dropdown.setAdapter(adapter);
 
         masukan.addTextChangedListener(new TextWatcher() {
@@ -62,29 +68,27 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                // menggunakan textutils untuk menghindarkan nullpointer exception karena string.isempty akan melempar itu apabila string nya null
+                double nomer = TextUtils.isEmpty(masukan.getText().toString()) ? 0 : Double.parseDouble(masukan.getText().toString());
+
                 if (urutan == 0) {
-                    double nomer = TextUtils.isEmpty(masukan.getText().toString()) ? 0 : Double.parseDouble(masukan.getText().toString());
                     double fahrenheit = (nomer * 9 / 5 + 32);
                     hasil.setText(Math.round(fahrenheit) + "°F");
                 } else if (urutan == 1) {
-                    double nomer = TextUtils.isEmpty(masukan.getText().toString()) ? 0 : Double.parseDouble(masukan.getText().toString());
                     double kelvin = (nomer+273);
                     hasil.setText(Math.round(kelvin) + "°K");
                 } else if (urutan == 2) {
-                    double nomer = TextUtils.isEmpty(masukan.getText().toString()) ? 0 : Double.parseDouble(masukan.getText().toString());
                     double celcius = ((nomer - 32) * 5 / 9);
                     hasil.setText(Math.round(celcius) + "°C");
                 } else if (urutan == 3) {
-                    double nomer = TextUtils.isEmpty(masukan.getText().toString()) ? 0 : Double.parseDouble(masukan.getText().toString());
                     double celcius = ((nomer - 32) * 5 / 9);
                     double kelvin = (celcius+273);
                     hasil.setText(Math.round(kelvin) + "°K");
                 } else if (urutan == 4) {
-                    double nomer = TextUtils.isEmpty(masukan.getText().toString()) ? 0 : Double.parseDouble(masukan.getText().toString());
                     double celcius = nomer - 273;
                     hasil.setText(Math.round(celcius) + "°C");
                 } else {
-                    double nomer = TextUtils.isEmpty(masukan.getText().toString()) ? 0 : Double.parseDouble(masukan.getText().toString());
                     double celcius = nomer - 273;
                     double fahrenheit = (celcius * 9 / 5 + 32);
                     hasil.setText(Math.round(fahrenheit) + "°F");
